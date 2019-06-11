@@ -1,0 +1,35 @@
+flag = False # 标记字符串是否截取完成
+lis = [] # 存储找到的子字符串
+count = 0 # 计数
+result_str = '' # 存储切割后的结果
+
+def split_str(s, d, length):
+    """
+    type s: string
+    type d: set
+    type length: int
+    rtype: None
+    """
+    len_s = len(s)
+    global flag, count, result_str
+    
+    if flag == False:
+        for i in range(len_s):
+            tmp_sub_s = s[0:len_s - i]
+            if tmp_sub_s in d:
+                count += len(tmp_sub_s)
+                lis.append(tmp_sub_s)
+                sub_s = s[len_s-i : len_s]
+                if len(sub_s) == 0 and count == length:
+                    flag = True
+                    result_str = lis[0]
+                    for l in lis[1:]:
+                       result_str += ' ' + l # 添加空格
+                    return result_str # 返回结果
+                    
+                split_str(sub_s, d, length)
+
+s = '南京市长江大桥'
+d = {'南京', '市', '市长', '长江', '大桥', '江大桥'}
+split_str(s, d, len(s))
+
